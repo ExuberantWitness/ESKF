@@ -43,11 +43,13 @@ class ESKF:
     p_acc: float = 0
     p_gyro: float = 0
 
-    S_a: np.ndarray = np.eye(3)
-    S_g: np.ndarray = np.eye(3)
+    # 改为使用 `field(default_factory=...)`，避免使用可变对象作为默认值
+    S_a: np.ndarray = field(default_factory=lambda: np.eye(3))
+    S_g: np.ndarray = field(default_factory=lambda: np.eye(3))
     debug: bool = True
 
-    g: np.ndarray = np.array([0, 0, 9.82])  # Ja, i NED-land, der kan alt gå an
+    # 同样修改 g 的默认值
+    g: np.ndarray = field(default_factory=lambda: np.array([0, 0, 9.82]))  # 重力向量
 
     Q_err: np.array = field(init=False, repr=False)
 
